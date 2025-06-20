@@ -11,14 +11,22 @@ body {
     transition: background-color 0.5s ease, color 0.5s ease;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
+    /* --- 修复 #1: 背景图片路径 --- */
+    background-image: url('/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 body.theme-dark { background-color: var(--bg-dark); color: var(--text-dark); }
 body.theme-light { background-color: var(--bg-light); color: var(--text-light); }
 h1,h3 { margin: 0; }
 p { margin: 1em 0; }
-h1,p,div { text-shadow: 1px 1px 4px var(--shadow); }
+h1,p,div,span {
+    /* --- 修复 #4: 增强字体轮廓感 --- */
+    text-shadow: 0 0 5px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.3);
+}
 
-/* 背景 */
+/* 背景 (动态渐变层) */
 #dynamic-bg {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2;
     background-size: 400% 400%; animation: gradient-animation 20s ease infinite;
@@ -79,8 +87,13 @@ button:disabled { background-color: #999; cursor: not-allowed; }
 /* Tabs */
 .tabs { display: flex; gap: 10px; margin-top: 2rem; border-bottom: 1px solid; overflow-x: auto; padding-bottom: 5px; -webkit-overflow-scrolling: touch; }
 body.theme-dark .tabs { border-bottom-color: var(--border-dark); } body.theme-light .tabs { border-bottom-color: var(--border-light); }
-.tab-link { flex-shrink: 0; padding: 10px 15px; font-size: 0.9rem; border-bottom: 3px solid transparent; }
-.tab-link.active { border-bottom-color: var(--primary-accent); color: var(--primary-accent); font-weight: bold; }
+.tab-link { flex-shrink: 0; padding: 10px 15px; font-size: 0.9rem; border-bottom: 3px solid transparent; color: inherit; }
+.tab-link.active {
+    /* --- 修复 #3: 确保激活时文字颜色 --- */
+    color: var(--primary-accent);
+    border-bottom-color: var(--primary-accent);
+    font-weight: bold;
+}
 .tab-content { padding-top: 20px; }
 
 /* 照片墙 */
@@ -108,12 +121,42 @@ body.theme-light .like-btn { color: #888; }
 .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--primary-accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* 手机优化 */
+/* 手机优化 (小于 768px) */
 @media (max-width: 768px) {
-    #photo-gallery { column-count: 2; }
     .container { padding: 70px 15px 30px; }
     #main-title { font-size: 2rem; }
+    
+    /* --- 修复 #5: 计时器田字格布局 --- */
+    #timer {
+        justify-content: center;
+        max-width: 320px; /* 控制最大宽度以形成2x2 */
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .time-block {
+        flex: 1 1 40%; /* 允许伸缩，基础宽度40%，形成两列 */
+        min-width: 120px;
+        box-sizing: border-box;
+    }
     .time-block span { font-size: 2rem; }
+    
+    /* --- 修复 #6: 调整卡片边距 --- */
+    .content-section {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    /* --- 修复 #2: Tab 按钮堆叠 --- */
+    .tabs {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .tab-link {
+        flex-grow: 1; /* 让按钮平均占据一行空间 */
+        text-align: center;
+    }
+    
+    #photo-gallery { column-count: 2; }
     #info-card { flex-direction: column; align-items: center; }
     #info-card > div { margin-left: 0 !important; margin-top: 15px; text-align: center !important; }
 }
