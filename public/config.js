@@ -15,9 +15,9 @@ const siteConfig = {
 
     // 个人信息卡片
     personalInfo: {
-        name: '张小明',
+        name: '吴承泽',
         motto: '“愿我们前程似锦，再相逢依旧如故！”',
-        contact: 'QQ: 12345678',
+        contact: 'Phone： 192-8547-6313 | Email：chengze2012@gmail.com | QQ： 3546598683',
         // 推荐使用一个永久有效的头像图床链接
         avatarUrl: 'https://i.pravatar.cc/100?u=xiaoming'
     },
