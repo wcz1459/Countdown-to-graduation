@@ -2,66 +2,78 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>我们的小学毕业纪念册</title>
+
+    <!-- 样式表 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="vendor/photoswipe/photoswipe.css">
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+
+    <!-- FAVICON 和 PWA -->
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <link rel="shortcut icon" href="assets/icons/favicon.ico">
+    <meta name="theme-color" content="#1a1a1a" id="theme-color-meta">
 </head>
-<body>
-    <!-- 背景粒子效果 -->
+<body class="theme-dark">
+    <div id="loading-overlay"><div class="spinner"></div></div>
+
+    <div id="dynamic-bg"></div>
     <div id="particles-js"></div>
 
-    <div class="container">
+    <header class="site-header">
+        <div class="header-left">
+            <button id="theme-toggle-btn" class="header-btn" aria-label="切换主题"><i class="fas fa-sun"></i></button>
+            <button id="music-toggle-btn" class="header-btn" aria-label="播放音乐"><i class="fas fa-music"></i></button>
+        </div>
+        <div class="header-right">
+            <button id="share-btn" class="header-btn" aria-label="分享"><i class="fas fa-share-alt"></i></button>
+            <button id="fullscreen-btn" class="header-btn" aria-label="全屏"><i class="fas fa-expand"></i></button>
+        </div>
+    </header>
+
+    <main class="container">
         <h1 id="main-title">我们的小学毕业纪念册</h1>
         <p id="main-text">正在加载时间...</p>
-
-        <div id="timer">
-            <!-- JS会动态填充这里 -->
-        </div>
-
+        <div id="timer"></div>
         <div id="hitokoto-wrapper">
             <p id="hitokoto-text">『 正在获取一言... 』</p>
             <p id="hitokoto-from">--&nbsp;一言</p>
         </div>
 
-        <!-- 验证区域 -->
         <div id="verification-gate" class="content-section">
+            <h3>时光之钥</h3>
+            <p>请输入我们的“板子编号”，解锁尘封的回忆。</p>
             <input type="text" id="verification-input" placeholder="请输入板子编号...">
-            <button id="verify-btn">解锁我们的回忆</button>
+            <button id="verify-btn">开启时光胶囊</button>
         </div>
         
-        <!-- 解锁后显示的内容 -->
         <div id="unlocked-content" class="hidden">
-            <!-- 个人信息卡片 -->
-            <div id="info-card" class="content-section">
-                <img id="info-avatar" src="" alt="头像" class="avatar">
-                <div class="info-content">
-                    <h3 id="info-name"></h3>
-                    <p id="info-motto" class="motto"></p>
-                    <p id="info-contact" class="contact"></p>
+            <div id="info-card" class="content-section"></div>
+            <div class="tabs"></div>
+            <div id="tab-content-container">
+                <div id="tab-photos" class="tab-content">
+                    <div class="pswp-gallery" id="photo-gallery"></div>
                 </div>
-            </div>
-
-            <!-- 留言板 -->
-            <div id="message-board-section" class="content-section">
-                <h2>时光留言板</h2>
-                <div id="message-list">
-                    <!-- 留言将在这里显示 -->
+                <div id="tab-messages" class="tab-content">
+                    <div id="message-list"></div>
+                    <form id="message-form">
+                        <input type="text" id="message-username" placeholder="你的名字" required maxlength="50">
+                        <textarea id="message-content" placeholder="在此留下你的祝福吧..." required maxlength="500"></textarea>
+                        <button type="submit">提交留言</button>
+                    </form>
                 </div>
-                <form id="message-form">
-                    <input type="text" id="message-username" placeholder="你的名字" required>
-                    <textarea id="message-content" placeholder="在此留下你的祝福吧..." required></textarea>
-                    <button type="submit">提交留言</button>
-                </form>
             </div>
         </div>
-    </div>
+    </main>
     
-    <!-- 外部库和脚本 -->
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <audio id="background-audio" loop></audio>
+
+    <script src="vendor/particles.min.js"></script>
     <script src="config.js"></script>
-    <script src="script.js"></script>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

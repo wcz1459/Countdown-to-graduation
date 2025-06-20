@@ -1,0 +1,21 @@
+{
+  "name": "我们的小学毕业纪念册",
+  "short_name": "毕业纪念",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#1a1a1a",
+  "theme_color": "#1a1a1a",
+  "description": "一份承载六年回忆的数字时光胶囊。",
+  "icons": [
+    {
+      "src": "assets/icons/web-app-manifest-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "assets/icons/web-app-manifest-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
