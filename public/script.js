@@ -1,3 +1,5 @@
+// public/script.js
+
 import PhotoSwipeLightbox from './vendor/photoswipe/photoswipe-lightbox.esm.js';
 import PhotoSwipe from './vendor/photoswipe/photoswipe.esm.js';
 
@@ -71,16 +73,28 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('theme', isDark ? 'dark' : 'light');
         },
         // 音乐播放
-        toggleMusic() {
-            if (!this.els.bgAudio.src) this.els.bgAudio.src = siteConfig.backgroundMusicUrl;
+        async toggleMusic() {
+            if (!this.els.bgAudio.src) {
+                this.els.bgAudio.src = siteConfig.backgroundMusicUrl;
+            }
+
             if (this.state.isMusicPlaying) {
                 this.els.bgAudio.pause();
+                this.state.isMusicPlaying = false;
                 this.els.musicToggleBtn.innerHTML = '<i class="fas fa-music"></i>';
             } else {
-                this.els.bgAudio.play().catch(e => console.error("音乐播放失败:", e));
-                this.els.musicToggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                try {
+                    await this.els.bgAudio.play();
+                    this.state.isMusicPlaying = true;
+                    this.els.musicToggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                } catch (error) {
+                    if (error.name !== 'AbortError') {
+                        console.error("音乐播放失败:", error);
+                    }
+                    this.state.isMusicPlaying = false;
+                    this.els.musicToggleBtn.innerHTML = '<i class="fas fa-music"></i>';
+                }
             }
-            this.state.isMusicPlaying = !this.state.isMusicPlaying;
         },
         // 全屏
         toggleFullscreen() {
@@ -219,7 +233,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 messages.forEach(msg => {
                     const item = document.createElement('div');
                     item.className = 'message-item';
-                    const date = new Date(msg.timestamp).toLocaleString('zh-CN', { hour12: false });
+                    
+                    // --- 核心修复: 健壮的日期时间格式化 ---
+                    const date = msg.timestamp ? new Date(msg.timestamp).toLocaleString('zh-CN', {
+                        year: 'numeric', month: 'numeric', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit',
+                        hour12: false
+                    }) : '未知时间';
+
                     const isLiked = this.state.likedMessages.has(msg.id);
                     item.innerHTML = `
                         <div class="message-header">
