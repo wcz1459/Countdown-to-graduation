@@ -7,28 +7,28 @@
     --text-dark: #e0e0e0; --text-light: #333333;
     --border-dark: rgba(255, 255, 255, 0.15); --border-light: rgba(0, 0, 0, 0.1);
     --primary-accent: #ff9800; --shadow: rgba(0,0,0,0.3);
-    /* --- 修复 #2: 定义背景遮罩颜色变量 --- */
     --overlay-color-dark: rgba(0, 0, 0, 0.55);
-    --overlay-color-light: rgba(240, 242, 245, 0.3); /* 亮色主题用浅色蒙版 */
+    --overlay-color-light: rgba(240, 242, 245, 0.3);
 }
 body {
     margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans SC", "Helvetica Neue", "PingFang SC", "Microsoft Yahei", sans-serif;
     transition: background-color 0.5s ease, color 0.5s ease;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
-    background-image: url('/background.jpg');
+    position: relative;
+    z-index: 0;
+
+    /* --- 核心修复: 默认设置桌面背景 --- */
+    background-image: url('/public/background-desktop.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
-    position: relative; /* 为伪元素定位提供基准 */
-    z-index: 0;
 }
-/* --- 修复 #2: 创建一个独立的、可切换的背景蒙版 --- */
 body::before {
     content: '';
     position: fixed;
     top: 0; left: 0; width: 100%; height: 100%;
-    z-index: -1; /* 确保在内容之下，背景之上 */
+    z-index: -1;
     transition: background-color 0.5s ease;
 }
 body.theme-dark::before {
@@ -47,10 +47,7 @@ h1,p,div,span {
     text-shadow: 0 0 5px rgba(0,0,0,0.5), 0 0 10px rgba(0,0,0,0.3);
 }
 
-/* 背景 (动态渐变层被移除，因为它会覆盖静态背景图) */
-/* #dynamic-bg { ... }  <-- 建议注释或删除这整个部分，除非你想用渐变背景替代图片背景 */
-
-#particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; } /* 调整 z-index */
+#particles-js { position: fixed; width: 100%; height: 100%; top: 0; left: 0; z-index: 0; }
 
 /* 布局 & 头部 */
 .container { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; text-align: center; padding: 80px 20px 40px; box-sizing: border-box; }
@@ -117,13 +114,35 @@ body.theme-light .like-btn { color: #888; }
 #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--primary-accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* 手机优化 (小于 768px) */
 @media (max-width: 768px) {
+    /* --- 核心修复: 切换为移动端背景 --- */
+    body {
+        background-image: url('/public/background-mobile.jpg');
+    }
+
     .container { padding: 70px 15px 30px; }
     #main-title { font-size: 2rem; }
-    #timer { justify-content: center; max-width: 320px; margin-left: auto; margin-right: auto; }
-    .time-block { flex: 1 1 40%; min-width: 120px; box-sizing: border-box; }
+    
+    #timer {
+        justify-content: center;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .time-block {
+        flex: 1 1 40%;
+        min-width: 120px;
+        box-sizing: border-box;
+    }
     .time-block span { font-size: 2rem; }
-    .content-section { padding-left: 15px; padding-right: 15px; }
+    
+    .content-section {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+    
     #photo-gallery { column-count: 2; }
     #info-card { flex-direction: column; align-items: center; }
     #info-card > div { margin-left: 0 !important; margin-top: 15px; text-align: center !important; }
