@@ -339,7 +339,7 @@ document.addEventListener('DOMContentLoaded', () => {
         },
         async fetchHitokoto() {
             try {
-                const response = await fetch('https://v1.hitokoto.cn');
+                const response = await fetch('https://international.v1.hitokoto.cn');
                 const data = await response.json();
                 this.els.hitokotoText.textContent = `『 ${data.hitokoto} 』`;
                 this.els.hitokotoFrom.textContent = `-- ${data.from_who || ''} 「${data.from}」`;
