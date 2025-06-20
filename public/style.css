@@ -1,0 +1,180 @@
+/* 全局样式和字体 */
+:root {
+    --card-bg: rgba(0, 0, 0, 0.35);
+    --border-color: rgba(255, 255, 255, 0.2);
+    --primary-accent: #ffc107;
+    --text-light: #f0f0f0;
+    --text-dark: #ccc;
+}
+
+body {
+    margin: 0;
+    font-family: 'Noto Sans SC', sans-serif;
+    background-color: #1a1a1a;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* 背景遮罩 */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+}
+
+/* 粒子背景 */
+#particles-js {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* 内容容器 */
+.container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+    padding: 20px;
+}
+
+h1, p, div {
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+#main-title { font-size: 2.8rem; }
+#main-text { font-size: 1.2rem; margin-bottom: 1.5rem; }
+
+/* 计时器 */
+#timer { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 2rem; }
+.time-block {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 15px 20px;
+    border-radius: 12px;
+    min-width: 90px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+.time-block span { font-size: 3rem; font-weight: bold; display: block; }
+.time-block label { font-size: 0.9rem; color: var(--text-dark); }
+
+/* 一言 */
+#hitokoto-wrapper {
+    background: rgba(0,0,0,0.2);
+    padding: 15px 25px;
+    border-radius: 8px;
+    max-width: 80%;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+#hitokoto-text { margin: 0; color: var(--text-light); }
+#hitokoto-from { margin: 5px 0 0; text-align: right; font-size: 0.9em; color: var(--text-dark); }
+
+/* 通用内容区块样式 */
+.content-section {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 25px;
+    width: 100%;
+    max-width: 500px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    margin-top: 1.5rem;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* 验证区域 */
+#verification-gate {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+input, textarea, button {
+    font-family: 'Noto Sans SC', sans-serif;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px 15px;
+    font-size: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+input, textarea { background-color: rgba(255, 255, 255, 0.9); color: #333; }
+button {
+    background-color: var(--primary-accent);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.3s, transform 0.2s;
+}
+button:hover { background-color: #ffb300; transform: translateY(-2px); }
+
+/* 解锁后内容 */
+.hidden { display: none; opacity: 0; transform: translateY(20px); }
+
+/* 个人信息卡片 */
+#info-card { display: flex; align-items: center; gap: 20px; }
+.avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary-accent); object-fit: cover; }
+.info-content { text-align: left; }
+.info-content h3 { margin: 0 0 5px; font-size: 1.5rem; color: var(--primary-accent); }
+.info-content .motto { margin: 0 0 10px; font-style: italic; color: var(--text-light); }
+.info-content .contact { margin: 0; font-size: 0.9rem; color: var(--text-dark); }
+
+/* 留言板 */
+#message-board-section h2 { margin-top: 0; color: var(--primary-accent); }
+#message-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+/* 美化滚动条 */
+#message-list::-webkit-scrollbar { width: 6px; }
+#message-list::-webkit-scrollbar-track { background: transparent; }
+#message-list::-webkit-scrollbar-thumb { background: var(--primary-accent); border-radius: 3px; }
+
+.message-item {
+    background: rgba(255,255,255,0.05);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border-left: 4px solid var(--primary-accent);
+}
+.message-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.message-user { font-weight: bold; color: #fff; }
+.message-time { font-size: 0.8em; color: var(--text-dark); }
+.message-body { color: var(--text-light); white-space: pre-wrap; word-wrap: break-word; }
+
+#message-form { display: flex; flex-direction: column; gap: 10px; }
+#message-form textarea { resize: vertical; min-height: 80px; }
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+    #main-title { font-size: 2rem; }
+    .time-block { padding: 10px; min-width: 65px; }
+    .time-block span { font-size: 1.8rem; }
+    .content-section { padding: 20px; }
+    #info-card { flex-direction: column; text-align: center; }
+    .info-content { text-align: center; }
+}

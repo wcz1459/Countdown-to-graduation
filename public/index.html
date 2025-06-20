@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>我们的小学毕业纪念册</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- 背景粒子效果 -->
+    <div id="particles-js"></div>
+
+    <div class="container">
+        <h1 id="main-title">我们的小学毕业纪念册</h1>
+        <p id="main-text">正在加载时间...</p>
+
+        <div id="timer">
+            <!-- JS会动态填充这里 -->
+        </div>
+
+        <div id="hitokoto-wrapper">
+            <p id="hitokoto-text">『 正在获取一言... 』</p>
+            <p id="hitokoto-from">--&nbsp;一言</p>
+        </div>
+
+        <!-- 验证区域 -->
+        <div id="verification-gate" class="content-section">
+            <input type="text" id="verification-input" placeholder="请输入板子编号...">
+            <button id="verify-btn">解锁我们的回忆</button>
+        </div>
+        
+        <!-- 解锁后显示的内容 -->
+        <div id="unlocked-content" class="hidden">
+            <!-- 个人信息卡片 -->
+            <div id="info-card" class="content-section">
+                <img id="info-avatar" src="" alt="头像" class="avatar">
+                <div class="info-content">
+                    <h3 id="info-name"></h3>
+                    <p id="info-motto" class="motto"></p>
+                    <p id="info-contact" class="contact"></p>
+                </div>
+            </div>
+
+            <!-- 留言板 -->
+            <div id="message-board-section" class="content-section">
+                <h2>时光留言板</h2>
+                <div id="message-list">
+                    <!-- 留言将在这里显示 -->
+                </div>
+                <form id="message-form">
+                    <input type="text" id="message-username" placeholder="你的名字" required>
+                    <textarea id="message-content" placeholder="在此留下你的祝福吧..." required></textarea>
+                    <button type="submit">提交留言</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 外部库和脚本 -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

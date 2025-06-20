@@ -1,0 +1,9 @@
+name = "graduation-countdown" # 你的项目名称，可以自定义
+compatibility_date = "2023-10-30"
+
+# [[d1_databases]] 是部署后在Cloudflare后台绑定的关键
+# 在本地开发时，Wrangler会为你自动创建本地数据库
+[[d1_databases]]
+binding = "DB"                # 必须是 "DB"，与代码中 env.DB 对应
+database_name = "graduation-messages"
+database_id = ""              # 部署后从Cloudflare仪表板获取并填入
