@@ -19,7 +19,7 @@ body {
     z-index: 0;
 
     /* --- 核心修复: 默认设置桌面背景 --- */
-    background-image: url('/public/background-desktop.jpg');
+    background-image: url('/background-desktop.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -119,7 +119,7 @@ body.theme-light .like-btn { color: #888; }
 @media (max-width: 768px) {
     /* --- 核心修复: 切换为移动端背景 --- */
     body {
-        background-image: url('/public/background-mobile.jpg');
+        background-image: url('/background-mobile.jpg');
     }
 
     .container { padding: 70px 15px 30px; }
