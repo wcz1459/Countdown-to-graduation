@@ -1,6 +1,6 @@
 const siteConfig = {
     // 毕业时间
-    graduationDate: '2025-07-03T00:00:00',
+    graduationDate: '2025-07-03T16:00:00',
     // 解锁卡片的“板子编号”前缀
     verificationCodes: ['LKAE', 'LKUM_250525'],
     // 个人信息卡片
