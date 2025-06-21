@@ -1,4 +1,4 @@
-// public/script.js
+// public/script.js (修改后)
 
 import PhotoSwipeLightbox from './vendor/photoswipe/photoswipe-lightbox.esm.js';
 import PhotoSwipe from './vendor/photoswipe/photoswipe.esm.js';
@@ -30,7 +30,13 @@ document.addEventListener('DOMContentLoaded', () => {
             messageForm: document.getElementById('message-form'),
             msgUsername: document.getElementById('message-username'),
             msgContent: document.getElementById('message-content'),
+            // (新增) 模拟时钟元素
+            analogClockContainer: document.getElementById('analog-clock-container'),
+            hourHand: document.getElementById('hour-hand'),
+            minuteHand: document.getElementById('minute-hand'),
+            secondHand: document.getElementById('second-hand'),
         },
+        // ... (state 和 init, initEventListeners 等函数保持不变) ...
         // 状态
         state: {
             isMusicPlaying: false,
@@ -185,7 +191,7 @@ document.addEventListener('DOMContentLoaded', () => {
             activeTab.dataset.loaded = 'true';
         },
         
-        // 功能模块
+        // ... (loadPhotoGallery, loadMessages, handleMessageSubmit, handleLike 等函数保持不变) ...
         async loadPhotoGallery() {
             this.els.photoGallery.innerHTML = '<div class="spinner" style="margin: 40px auto;"></div>';
             try {
@@ -234,7 +240,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     const item = document.createElement('div');
                     item.className = 'message-item';
                     
-                    // --- 核心修复: 健壮的日期时间格式化 ---
                     const date = msg.timestamp ? new Date(msg.timestamp).toLocaleString('zh-CN', {
                         year: 'numeric', month: 'numeric', day: 'numeric',
                         hour: '2-digit', minute: '2-digit', second: '2-digit',
@@ -312,7 +317,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         },
         
-        // 核心计时器
+        // 核心计时器 (修改后)
         initTimer() {
             this.updateTimer();
             this.state.timerInterval = setInterval(() => this.updateTimer(), 1000);
@@ -322,6 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const diff = this.state.graduationDate - now;
             let html = '';
             if (diff > 0) {
+                // --- 倒计时逻辑 ---
                 this.els.mainText.textContent = siteConfig.texts.countdown;
                 const d = Math.floor(diff / 86400000);
                 const h = Math.floor((diff % 86400000) / 3600000);
@@ -332,8 +338,24 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="time-block"><span>${String(h).padStart(2,'0')}</span><label>时</label></div>
                     <div class="time-block"><span>${String(m).padStart(2,'0')}</span><label>分</label></div>
                     <div class="time-block"><span>${String(s).padStart(2,'0')}</span><label>秒</label></div>`;
+                
+                // --- (新增) 更新模拟时钟 ---
+                this.els.analogClockContainer.classList.remove('hidden');
+                // 计算指针角度
+                const secondsAngle = s * 6; // 360/60 = 6
+                const minutesAngle = m * 6; // 360/60 = 6
+                const hoursAngle = (h % 12) * 30 + m * 0.5; // 360/12=30, 30/60=0.5
+                // 应用旋转
+                this.els.secondHand.style.transform = `rotate(${secondsAngle}deg)`;
+                this.els.minuteHand.style.transform = `rotate(${minutesAngle}deg)`;
+                this.els.hourHand.style.transform = `rotate(${hoursAngle}deg)`;
+
             } else {
+                // --- 正计时逻辑 ---
                 this.els.mainText.textContent = siteConfig.texts.countup;
+                // (新增) 隐藏模拟时钟
+                this.els.analogClockContainer.classList.add('hidden');
+
                 let years = now.getFullYear() - this.state.graduationDate.getFullYear();
                 let months = now.getMonth() - this.state.graduationDate.getMonth();
                 let days = now.getDate() - this.state.graduationDate.getDate();
@@ -353,7 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             this.els.timer.innerHTML = html;
         },
-        // 一言
+        // ... (initHitokoto, fetchHitokoto, 及其他工具函数保持不变) ...
         initHitokoto() {
             this.fetchHitokoto();
             this.state.hitokotoInterval = setInterval(() => this.fetchHitokoto(), 30000);
@@ -369,7 +391,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 this.els.hitokotoFrom.textContent = '';
             }
         },
-        // 其他工具函数
         initParticles() {
             particlesJS('particles-js', { particles: { number: { value: 40, density: { enable: true, value_area: 800 } }, color: { value: "#ffffff" }, shape: { type: "circle" }, opacity: { value: 0.5, random: true }, size: { value: 3, random: true }, line_linked: { enable: false }, move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out" } }, retina_detect: true });
         },

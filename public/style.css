@@ -1,4 +1,4 @@
-/* public/style.css (最终修复版) */
+/* public/style.css (最终修复版 + 模拟时钟) */
 
 /* 全局 & 主题 */
 :root {
@@ -18,7 +18,6 @@ body {
     position: relative;
     z-index: 0;
 
-    /* --- 核心修复: 默认设置桌面背景 --- */
     background-image: url('/background-desktop.jpg');
     background-size: cover;
     background-position: center;
@@ -62,16 +61,47 @@ h1,p,div,span {
 body.theme-light .header-btn { background: rgba(255,255,255,0.3); border-color: rgba(0,0,0,0.1); color: #333; }
 .header-left, .header-right { display: flex; gap: 10px; }
 
-/* ... (后续其他 CSS 规则保持不变) ... */
 #main-title { font-size: 2.5rem; margin-bottom: 0.5em; }
+
+/* --- (新增) 模拟时钟样式 --- */
+#analog-clock-container {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 1rem; /* 与下方数字时钟的间距 */
+    transition: opacity 0.5s;
+}
+.clock-face {
+    stroke-width: 2;
+    fill: none;
+    transition: stroke 0.5s ease;
+}
+.clock-hand {
+    stroke-linecap: round;
+    transform-origin: 50px 50px; /* 设置旋转中心 */
+    transition: transform 0.5s cubic-bezier(.4,2.08,.55,.44), stroke 0.5s ease; /* 平滑过渡效果 */
+}
+#hour-hand { stroke-width: 4; }
+#minute-hand { stroke-width: 3; }
+#second-hand {
+    stroke-width: 2;
+    stroke: var(--primary-accent); /* 秒针使用主题强调色 */
+    /* 移除 transition 让秒针"跳动" */
+    transition: transform 0.2s linear, stroke 0.5s ease;
+}
+body.theme-dark .clock-face { stroke: rgba(255, 255, 255, 0.4); }
+body.theme-dark .clock-hand { stroke: rgba(255, 255, 255, 0.8); }
+body.theme-light .clock-face { stroke: rgba(0, 0, 0, 0.2); }
+body.theme-light .clock-hand { stroke: rgba(0, 0, 0, 0.6); }
+/* -------------------------- */
+
 .content-section {
     backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
     border-radius: 15px; padding: 25px; width: 100%; max-width: 600px;
     box-shadow: 0 4px 20px var(--shadow); margin-top: 1.5rem;
     transition: all 0.5s ease;
 }
+/* ... (后续所有 CSS 规则保持不变) ... */
 body.theme-dark .content-section { background: var(--card-bg-dark); border: 1px solid var(--border-dark); }
-body.theme-light .content-section { background: var(--card-bg-light); border: 1px solid var(--border-light); }
 #timer { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 1.5rem 0; }
 .time-block { padding: 10px 15px; border-radius: 10px; min-width: 70px; }
 .time-block span { font-size: 2.5rem; font-weight: bold; display: block; }
@@ -114,35 +144,15 @@ body.theme-light .like-btn { color: #888; }
 #loading-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #121212; z-index: 9999; display: flex; align-items: center; justify-content: center; }
 .spinner { border: 4px solid rgba(255, 255, 255, 0.2); border-left-color: var(--primary-accent); border-radius: 50%; width: 50px; height: 50px; animation: spin 1s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
-
-/* 手机优化 (小于 768px) */
 @media (max-width: 768px) {
-    /* --- 核心修复: 切换为移动端背景 --- */
-    body {
-        background-image: url('/background-mobile.jpg');
-    }
-
+    body { background-image: url('/background-mobile.jpg'); }
     .container { padding: 70px 15px 30px; }
     #main-title { font-size: 2rem; }
-    
-    #timer {
-        justify-content: center;
-        max-width: 320px;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .time-block {
-        flex: 1 1 40%;
-        min-width: 120px;
-        box-sizing: border-box;
-    }
+    #analog-clock-container { width: 120px; height: 120px; } /* 在手机上缩小一点 */
+    #timer { justify-content: center; max-width: 320px; margin-left: auto; margin-right: auto; }
+    .time-block { flex: 1 1 40%; min-width: 120px; box-sizing: border-box; }
     .time-block span { font-size: 2rem; }
-    
-    .content-section {
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-    
+    .content-section { padding-left: 15px; padding-right: 15px; }
     #photo-gallery { column-count: 2; }
     #info-card { flex-direction: column; align-items: center; }
     #info-card > div { margin-left: 0 !important; margin-top: 15px; text-align: center !important; }
