@@ -8,7 +8,7 @@ const siteConfig = {
         name: '吴承泽',
         motto: '“愿我们前程似锦，再相逢依旧如故！”',
         contact: 'Phone： 192-8547-6313 | Email：chengze2012@gmail.com | QQ： 3546598683',
-        avatarUrl: 'https://psby.linkium.xyz/public/assets/images/headimage.jpg'
+        avatarUrl: 'https://psby.linkium.xyz/assets/images/headimage.jpg'
     },
     // 文案配置
     texts: {
